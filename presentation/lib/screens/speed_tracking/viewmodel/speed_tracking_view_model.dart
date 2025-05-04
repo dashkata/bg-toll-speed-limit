@@ -38,6 +38,9 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
   StreamSubscription? _segmentSubscription;
   Timer? _locationCheckTimer;
 
+  // Use the TrackingService interface method to check if simulation
+  bool get isSimulation => _trackingService.isSimulation;
+
   @override
   Future<void> init() async {
     try {
@@ -50,8 +53,10 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
       // Subscribe to segment updates
       _segmentSubscription = _trackingService.getTrackingSegmentStream().listen(_handleSegmentUpdate);
 
-      // Start location timer to check for cameras
-      _startLocationCheckTimer();
+      // Start location timer to check for cameras (only if not in simulation mode)
+      if (!isSimulation) {
+        _startLocationCheckTimer();
+      }
 
       // Update location
       final location = await _trackingService.getCurrentLocation();
@@ -61,6 +66,9 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
 
       // Check if any segment is active already
       final activeSegment = _trackingService.getCurrentSegment();
+
+      // Find the nearest camera point to determine current highway
+      await _updateCurrentHighway(location);
 
       updateState(
         state.copyWith(
@@ -86,46 +94,57 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
     }
   }
 
+  // Update the current highway based on location
+  Future<void> _updateCurrentHighway(LatLng location) async {
+    try {
+      // If we're currently in a segment, use its highway
+      if (state.activeSegment != null) {
+        updateState(state.copyWith(currentHighway: state.activeSegment!.startCamera.highway));
+        return;
+      }
+
+      // Otherwise try to find the nearest camera within 5km
+      final nearestCamera = await _highwayRepository.findNearestCameraPoint(location, 5.0);
+
+      if (nearestCamera != null) {
+        updateState(state.copyWith(currentHighway: nearestCamera.highway));
+      } else {
+        // If no nearby camera, clear the current highway
+        updateState(state.copyWith(currentHighway: null));
+      }
+    } catch (e) {
+      // If there's an error, don't update the highway
+      print('Error determining current highway: $e');
+    }
+  }
+
   @override
   Future<void> submitAction(SpeedTrackingAction action) async {
-    switch (action) {
-      case StartTracking():
-        // No longer needed with automatic tracking
-        submitEvent(
-          const SpeedTrackingEvent.showError(
-            'Automatic tracking is active. The app will detect segments automatically.',
-          ),
-        );
-        break;
-      case StopTracking():
-        // Still useful to manually stop tracking if needed
-        await _stopTracking();
-        break;
-      case RequestLocationPermission():
-        await _requestLocationPermission();
-        break;
-      case ToggleOverlay():
-        await _toggleOverlay();
-        break;
-      case ToggleNotifications():
-        await _toggleNotifications();
-        break;
-      case ToggleAutoTracking():
-        await _toggleAutoTracking();
-        break;
-    }
+    await action.map(
+      startTracking: (_) => _startTracking(),
+      stopTracking: (_) => _stopTracking(),
+      requestLocationPermission: (_) => _requestLocationPermission(),
+      toggleOverlay: (_) => _toggleOverlay(),
+      toggleNotifications: (_) => _toggleNotifications(),
+      toggleAutoTracking: (_) => _toggleAutoTracking(),
+    );
+  }
+
+  // Start tracking manually
+  Future<void> _startTracking() async {
+    submitEvent(
+      const SpeedTrackingEvent.showError('Auto tracking is active. The app will detect segments automatically.'),
+    );
   }
 
   // Private methods
 
   Future<void> _toggleAutoTracking() async {
     final newValue = !state.isAutoTrackingEnabled;
-
-    // Set the auto tracking mode in the service
-    (_trackingService as dynamic).setAutoTracking(newValue);
-
-    // Update state
     updateState(state.copyWith(isAutoTrackingEnabled: newValue));
+
+    // Use the TrackingService interface method
+    _trackingService.setAutoTracking(newValue);
 
     // Show confirmation to user
     final message =
@@ -231,7 +250,11 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
 
   void _handleSegmentUpdate(TrackingSegment? segment) {
     final previousSegment = state.activeSegment;
-    updateState(state.copyWith(activeSegment: segment));
+
+    // Update segment and current highway
+    updateState(
+      state.copyWith(activeSegment: segment, currentHighway: segment?.startCamera.highway ?? state.currentHighway),
+    );
 
     // Update overlay if active
     if (state.isOverlayActive) {
@@ -257,7 +280,12 @@ final class SpeedTrackingViewModel extends StateViewModel<SpeedTrackingState, Sp
     _locationCheckTimer = Timer.periodic(const Duration(seconds: 10), (_) async {
       try {
         final location = await _trackingService.getCurrentLocation();
+
+        // Update current location
         updateState(state.copyWith(currentLocation: location));
+
+        // Update current highway based on location
+        await _updateCurrentHighway(location);
 
         // Check for nearby cameras
         final allCameras = await _highwayRepository.getCameraPoints();

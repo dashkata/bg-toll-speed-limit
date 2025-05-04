@@ -31,6 +31,16 @@ class TrackingServiceImpl implements TrackingService {
   static const double _minimumSpeedThresholdKmh = 20.0; // Only track when moving
   bool _isAutoTrackingEnabled = true;
 
+  // This is the real service, not a simulation
+  @override
+  bool get isSimulation => false;
+
+  @override
+  void setAutoTracking(bool enabled) {
+    _isAutoTrackingEnabled = enabled;
+    log('Auto tracking set to: $enabled');
+  }
+
   @override
   Future<double> getCurrentSpeed() async {
     try {
@@ -224,12 +234,6 @@ class TrackingServiceImpl implements TrackingService {
     ).listen(_onPositionUpdate);
 
     log('Started location monitoring for automatic segment detection');
-  }
-
-  // Enable/disable automatic tracking
-  void setAutoTracking(bool enabled) {
-    _isAutoTrackingEnabled = enabled;
-    log('Auto tracking set to: $enabled');
   }
 
   // Dispose resources

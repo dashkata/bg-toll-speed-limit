@@ -27,4 +27,10 @@ abstract class TrackingService {
 
   /// Get a stream of tracking segment updates
   Stream<TrackingSegment?> getTrackingSegmentStream();
+
+  /// Check if this is a simulation service
+  bool get isSimulation;
+
+  /// Set whether auto-tracking is enabled
+  void setAutoTracking(bool enabled);
 }

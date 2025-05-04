@@ -1,3 +1,4 @@
+import 'package:domain/model/highway.dart';
 import 'package:domain/model/lat_lng.dart';
 import 'package:domain/model/tracking_segment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -10,6 +11,7 @@ class SpeedTrackingState with _$SpeedTrackingState {
     @Default(0.0) double currentSpeed,
     @Default(LatLng(latitude: 0.0, longitude: 0.0)) LatLng currentLocation,
     TrackingSegment? activeSegment,
+    Highway? currentHighway,
     @Default(false) bool isLoading,
     @Default(false) bool isOverlayActive,
     @Default(false) bool isNotificationEnabled,
