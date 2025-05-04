@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "name": "Trakia Km 10",
+    "latitude": 42.6841,
+    "longitude": 23.4039,
+    "highwayId": "1",
+    "kilometerMark": 10
+  },
+  {
+    "id": "2",
+    "name": "Trakia Km 40",
+    "latitude": 42.5602,
+    "longitude": 23.9256,
+    "highwayId": "1",
+    "kilometerMark": 40
+  },
+  {
+    "id": "3",
+    "name": "Trakia Km 80",
+    "latitude": 42.4500,
+    "longitude": 24.2972,
+    "highwayId": "1",
+    "kilometerMark": 80
+  },
+  {
+    "id": "4",
+    "name": "Hemus Km 15",
+    "latitude": 42.7669,
+    "longitude": 23.3525,
+    "highwayId": "2",
+    "kilometerMark": 15
+  },
+  {
+    "id": "5",
+    "name": "Hemus Km 60",
+    "latitude": 43.1239,
+    "longitude": 23.5681,
+    "highwayId": "2",
+    "kilometerMark": 60
+  },
+  {
+    "id": "6",
+    "name": "Struma Km 20",
+    "latitude": 42.3378,
+    "longitude": 23.1164,
+    "highwayId": "3",
+    "kilometerMark": 20
+  },
+  {
+    "id": "7",
+    "name": "Struma Km 50",
+    "latitude": 42.0492,
+    "longitude": 22.9747,
+    "highwayId": "3",
+    "kilometerMark": 50
+  },
+  {
+    "id": "8",
+    "name": "Maritsa Km 25",
+    "latitude": 42.1603,
+    "longitude": 25.3375,
+    "highwayId": "4",
+    "kilometerMark": 25
+  },
+  {
+    "id": "9",
+    "name": "Maritsa Km 70",
+    "latitude": 41.9256,
+    "longitude": 26.0175,
+    "highwayId": "4",
+    "kilometerMark": 70
+  }
+] 

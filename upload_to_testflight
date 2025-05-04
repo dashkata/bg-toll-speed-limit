@@ -1,0 +1,19 @@
+#!/bin/bash
+
+FLUTTER_APP_ROOT=$(basename "$(./main_package)")
+DEFINES="$(./defines)"
+
+cd fastlane-templates && cd fastlane || exit 1
+
+bundle exec fastlane distribute_testflight_develop bundle_id:"$BUNDLE_ID" \
+team_id:"$TEAM_ID" \
+scheme:"$SCHEME" \
+api_key:"$APP_STORE_API_KEY" \
+key_id:"$API_KEY_ID" \
+issuer_id:"$API_KEY_ISSUER" \
+project_name:"Runner" \
+targets:"Runner" \
+build_number:"$BITBUCKET_BUILD_NUMBER" \
+defines:"$DEFINES" \
+package_name:"$FLUTTER_APP_ROOT" \
+is_prod:"$IS_CLIENT_ACCOUNT"

@@ -1,0 +1,25 @@
+#Firebase
+*firebase*
+google-services*
+GoogleService-info*
+
+# IntelliJ related
+*.iml
+.idea/
+
+# Flutter/Dart/Pub related
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
+build/
+
+# Generated
+*.g.dart
+*.freezed.dart
+
+# IOS
+podfile.lock
+
+# Mason
+.mason/

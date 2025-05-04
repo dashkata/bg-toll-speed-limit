@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "\
+--dart-define="APP_VERSION=${BITBUCKET_BUILD_NUMBER}" \
+"

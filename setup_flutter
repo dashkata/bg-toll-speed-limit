@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# install Flutter
+fvm install 3.16.8
+fvm global 3.16.8
+
+# Configure Android & cleanup
+flutter pub cache clean --force

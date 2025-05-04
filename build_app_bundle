@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+DEFINES="$(./defines)"
+
+FLUTTER_ROOT_PACKAGE="$(./main_package)"
+cd "$FLUTTER_ROOT_PACKAGE" || exit 1
+
+# Build APK
+flutter build appbundle --release \
+--flavor "${FLAVOR_NAME}" \
+--build-number "${BITBUCKET_BUILD_NUMBER}" \
+-Psigning \
+-PkeyStore="$BITBUCKET_CLONE_DIR"/keystore.jks \
+-PkeyStorePassword="${KEYSTORE_PASSWORD}" \
+-PkeyPass="${KEY_PASSWORD}" \
+-Palias="${KEYSTORE_ALIAS}" \
+"${DEFINES}" || exit 1

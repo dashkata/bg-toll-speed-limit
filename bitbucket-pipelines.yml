@@ -1,0 +1,120 @@
+image: public.ecr.aws/j7e3x4p5/flutter-build:30
+pipelines:
+  branches:
+    develop:
+      - parallel:
+          - step:
+              name: Upload Dev APK
+              deployment: Develop-Android
+              runs-on:
+                - self.hosted
+                - linux
+              caches:
+                - gradle
+              size:
+                2x
+              script:
+                - ./download_keystore
+                - ./setup_flutter
+                - ./flutterfire_configure_android
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./build_apk
+                - ./upload_to_firebase
+                - ./artefact_output_path
+              artifacts:
+                - build/**/app*.apk
+                - build/reports/**
+          - step:
+              name: Upload Dev IPA
+              deployment: Develop-IOS
+              runs-on:
+                - self.hosted
+                - macos
+              script:
+                - ./setup_flutter
+                - ./setup_fastlane
+                - ./flutterfire_configure_ios
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./upload_to_testflight
+              artifacts:
+                download: false
+      - parallel:
+          - step:
+              name: Build Prod AAB
+              trigger: manual
+              deployment: Production-Android
+              runs-on:
+                - self.hosted
+                - linux
+              caches:
+                - gradle
+              size:
+                2x
+              script:
+                - ./download_keystore
+                - ./setup_flutter
+                - ./flutterfire_configure_android
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./build_app_bundle
+                - ./artefact_output_path
+              artifacts:
+                - build/**/app*.aab
+                - build/reports/**
+          - step:
+              name: Upload Prod IPA
+              trigger: manual
+              deployment: Production-IOS
+              runs-on:
+                - self.hosted
+                - macos
+              script:
+                - ./setup_flutter
+                - ./flutterfire_configure_ios
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./setup_fastlane
+                - ./upload_to_testflight
+              artifacts:
+                download: false
+  pull-requests:
+    '**':
+      - parallel:
+          - step:
+              name: Build Dev APK
+              deployment: Develop-Android
+              runs-on:
+                - self.hosted
+                - linux
+              caches:
+                - gradle
+              size:
+                2x
+              script:
+                - ./download_keystore
+                - ./setup_flutter
+                - ./flutterfire_configure_android
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./build_apk
+                - ./artefact_output_path
+              artifacts:
+                - build/**/app*.apk
+                - build/reports/**
+          - step:
+              name: Build Dev IPA
+              deployment: Develop-IOS
+              runs-on:
+                - self.hosted
+                - macos
+              script:
+                - ./setup_flutter
+                - ./setup_fastlane
+                - ./flutterfire_configure_ios
+                - ./run_build_runner_packages
+                - ./run_flutter_gen_l10n
+                - ./build_adhoc
+              artifacts:
+                - artifacts/*.ipa

@@ -1,0 +1,9 @@
+{
+  "login" : "Вход",
+  "logout" : "Изход",
+  "genericError" : "Нещо се обърка",
+  "favoriteUpdated" : "Любими актуализирани успешно",
+  "areYouSureLogout" : "Сигурни ли сте че искате да излезете?",
+  "confirm" : "Да",
+  "featureDisabled" : "Тази функционалност е забранена"
+}

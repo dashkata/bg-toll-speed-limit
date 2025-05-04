@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export LANG=en_US.UTF-8
+
+git clone -b fastlane_flutter_new git@bitbucket.org:appolica/fastlane-templates.git
+
+cd fastlane-templates || exit 1
+
+bundle install --path ~/.gem

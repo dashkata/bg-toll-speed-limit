@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "startCameraId": "1",
+    "endCameraId": "2",
+    "distanceKm": 30.0,
+    "speedLimit": 130.0
+  },
+  {
+    "id": "2",
+    "startCameraId": "2",
+    "endCameraId": "3",
+    "distanceKm": 40.0,
+    "speedLimit": 130.0
+  },
+  {
+    "id": "3",
+    "startCameraId": "4",
+    "endCameraId": "5",
+    "distanceKm": 45.0,
+    "speedLimit": 130.0
+  },
+  {
+    "id": "4",
+    "startCameraId": "6",
+    "endCameraId": "7",
+    "distanceKm": 30.0,
+    "speedLimit": 130.0
+  },
+  {
+    "id": "5",
+    "startCameraId": "8",
+    "endCameraId": "9",
+    "distanceKm": 45.0,
+    "speedLimit": 130.0
+  }
+] 
