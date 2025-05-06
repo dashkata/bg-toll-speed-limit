@@ -5,6 +5,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:presentation/app/app.dart';
 import 'package:presentation/app/router/setup.dart';
 
+import 'di/dependencies/hive.dart';
 import 'di/setup.dart';
 import 'overlay_entry.dart';
 

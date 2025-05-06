@@ -48,6 +48,9 @@ class SpeedTrackingScreen extends StatelessWidget {
                 },
                 showSegmentStarted: (TrackingSegment segment) {},
                 showSegmentEnded: () {},
+                showHighway: (String highwayName) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(highwayName)));
+                },
               );
             },
             child: SpeedTrackingBody(submitAction: viewModel.submitAction),

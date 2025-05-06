@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
 /// Client for interacting with device location services
-class LocationClient {
+class LocationService {
   /// Request location permission from the user
   Future<bool> requestPermission() async {
     bool serviceEnabled;
@@ -31,8 +31,8 @@ class LocationClient {
 
   /// Get the current position
   Future<Position> getCurrentPosition() async {
-    return await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+    return Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.bestForNavigation,
     );
   }
 
@@ -40,8 +40,17 @@ class LocationClient {
   Stream<Position> getPositionStream() {
     return Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
+        accuracy: LocationAccuracy.bestForNavigation,
         distanceFilter: 10, // Update every 10 meters
+      ),
+    );
+  }
+
+  /// Get a stream of speed updates
+  Stream<Position> getSpeedStream() {
+    return Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
       ),
     );
   }
@@ -62,6 +71,19 @@ class LocationClient {
         1000; // Convert meters to km
   }
 
+  Future<double> calculateDistanceFromCurrentPosition(
+    double endLatitude,
+    double endLongitude,
+  ) async {
+    final currentPosition = await getCurrentPosition();
+    return Geolocator.distanceBetween(
+          currentPosition.latitude,
+          currentPosition.longitude,
+          endLatitude,
+          endLongitude,
+        ) /
+        1000; // Convert meters to km
+  }
   /// Check if current location is near a point
   Future<bool> isNearPoint(
     double targetLatitude,

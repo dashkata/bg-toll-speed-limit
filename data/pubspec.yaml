@@ -25,15 +25,6 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   flutter_secure_storage: ^9.2.4
-  
-  # Location services
-  geolocator: ^11.0.0
-  
-  # Overlay window
-  flutter_overlay_window: ^0.5.0
-  
-  # Local notifications
-  flutter_local_notifications: ^17.0.0
 
 dev_dependencies:
   flutter_test:
@@ -45,3 +36,7 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+flutter:
+  assets:
+    - assets/data/highways_usa.json
+    - assets/data/highways_usa.json
