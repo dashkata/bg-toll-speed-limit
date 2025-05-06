@@ -21,6 +21,8 @@ abstract class NotificationService {
     required double distanceKm,
   });
 
+  
+
   /// Show a segment tracking started notification
   Future<void> showSegmentTrackingStarted({
     required TrackingSegment segment,

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "1",
+    "name": "Interstate 15",
+    "code": "I-15",
+    "speedLimit": 120.0,
+    "cameraPoints": [
+      {
+        "id": "1",
+        "name": "I-15 North Exit",
+        "latitude": 36.810450,
+        "longitude": -114.062334,
+        "kilometerMark": 15
+      },
+      {
+        "id": "2",
+        "name": "I-15 Las Vegas",
+        "latitude": 36.239018,
+        "longitude": -115.032888,
+        "kilometerMark": 60
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Valley of Fire Highway",
+    "code": "NV-169",
+    "speedLimit": 105.0,
+    "cameraPoints": [
+      {
+        "id": "1",
+        "name": "Valley of Fire East",
+        "latitude": 36.365857,
+        "longitude": -114.900705,
+        "kilometerMark": 10
+      },
+      {
+        "id": "2",
+        "name": "Valley of Fire Central",
+        "latitude": 36.407543,
+        "longitude": -114.532680,
+        "kilometerMark": 30
+      },
+      {
+        "id": "3",
+        "name": "Valley of Fire West",
+        "latitude": 36.436028,
+        "longitude": -114.414278,
+        "kilometerMark": 45
+      }
+    ]
+  }
+] 

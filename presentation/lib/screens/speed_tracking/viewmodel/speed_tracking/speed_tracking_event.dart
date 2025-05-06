@@ -9,6 +9,7 @@ sealed class SpeedTrackingEvent with _$SpeedTrackingEvent {
   const factory SpeedTrackingEvent.showInfo(String message) = ShowInfo;
   const factory SpeedTrackingEvent.showSpeedWarning(double currentSpeed, double speedLimit) = ShowSpeedWarning;
   const factory SpeedTrackingEvent.showCameraApproaching(String cameraName, double distanceKm) = ShowCameraApproaching;
+  const factory SpeedTrackingEvent.showHighway(String highwayName) = ShowHighway;
   const factory SpeedTrackingEvent.showPermissionRequired() = ShowPermissionRequired;
   const factory SpeedTrackingEvent.showSegmentStarted(TrackingSegment segment) = ShowSegmentStarted;
   const factory SpeedTrackingEvent.showSegmentEnded() = ShowSegmentEnded;

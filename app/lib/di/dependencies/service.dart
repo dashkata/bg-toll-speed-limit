@@ -1,9 +1,9 @@
 import 'package:data/services/notification_service_impl.dart';
 import 'package:data/services/overlay_service_impl.dart';
-import 'package:data/services/tracking_service_impl.dart';
 import 'package:domain/services/auth.dart';
 import 'package:domain/services/cache_service.dart';
 import 'package:domain/services/localization_service.dart';
+import 'package:domain/services/location_service.dart';
 import 'package:domain/services/notification_service.dart';
 import 'package:domain/services/overlay_service.dart';
 import 'package:domain/services/theme_service.dart';
@@ -18,7 +18,10 @@ void service() {
     ..registerLazySingleton(Auth.new)
     ..registerLazySingleton(() => ThemeService(settingsRepository: locator(), cacheService: locator()))
     ..registerLazySingleton(() => LocalizationService(settingsRepository: locator(), cacheService: locator()))
-    ..registerLazySingleton<TrackingService>(() => TrackingServiceImpl(highwayRepository: locator()))
+    ..registerLazySingleton(LocationService.new)
+    ..registerLazySingleton<TrackingService>(
+      () => TrackingService(highwayRepository: locator(), locationService: locator()),
+    )
     ..registerLazySingleton<NotificationService>(NotificationServiceImpl.new)
     ..registerLazySingleton<OverlayService>(OverlayServiceImpl.new);
 }

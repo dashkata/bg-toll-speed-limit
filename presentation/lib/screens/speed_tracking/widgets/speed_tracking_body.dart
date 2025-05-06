@@ -1,3 +1,4 @@
+import 'package:domain/model/highway.dart';
 import 'package:domain/model/lat_lng.dart';
 import 'package:domain/model/tracking_segment.dart';
 import 'package:flutter/material.dart';
@@ -35,18 +36,16 @@ class SpeedTrackingBody extends StatelessWidget {
               builder: (context, segment, child) => ActiveSegmentCard(segment: segment),
             ),
             const SizedBox(height: 16),
-            Selector<SpeedTrackingViewModel, LatLng>(
-              selector: (context, viewModel) => viewModel.state.currentLocation,
-              builder: (context, location, child) => LocationCard(location: location),
+            Selector<SpeedTrackingViewModel, (LatLng, Highway?)>(
+              selector: (context, viewModel) => (viewModel.state.currentLocation, viewModel.state.highway),
+              builder: (context, locationCard, child) => LocationCard(location: locationCard.$1, highway: locationCard.$2,),
             ),
             const Spacer(),
-            Selector<SpeedTrackingViewModel, (TrackingSegment?, bool)>(
-              selector: (context, viewModel) => (viewModel.state.activeSegment, viewModel.state.isAutoTrackingEnabled),
-              builder: (context, data, child) {
-                final (activeSegment, isAutoTrackingEnabled) = data;
+            Selector<SpeedTrackingViewModel, TrackingSegment?>(
+              selector: (context, viewModel) => viewModel.state.activeSegment,
+              builder: (context, activeSegment, child) {
                 return ActionButtons(
                   activeSegment: activeSegment,
-                  isAutoTrackingEnabled: isAutoTrackingEnabled,
                   submitAction: submitAction,
                 );
               },

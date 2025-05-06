@@ -17,14 +17,6 @@ class SpeedTrackingAppbar extends StatelessWidget implements PreferredSizeWidget
       title: const Text('Speed Monitor'),
       actions: [
         Selector<SpeedTrackingViewModel, bool>(
-          selector: (context, viewModel) => viewModel.state.isAutoTrackingEnabled,
-          builder:
-              (context, isAutoTrackingEnabled, child) => AutoTrackingToggle(
-                isAutoTrackingEnabled: isAutoTrackingEnabled,
-                toggleAutoTracking: () => submitAction(const SpeedTrackingAction.toggleAutoTracking()),
-              ),
-        ),
-        Selector<SpeedTrackingViewModel, bool>(
           selector: (context, viewModel) => viewModel.state.isNotificationEnabled,
           builder:
               (context, isNotificationsEnabled, child) => NotificationToggle(

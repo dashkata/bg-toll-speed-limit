@@ -4,7 +4,6 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
         {
             "name": "app (web)",
             "cwd": "app",
@@ -34,7 +33,9 @@
             "type": "dart",
             "args": [
                 "--flavor",
-                "dev"
+                "dev",
+                "--dart-define",
+                "USE_USA_DATA=true"
             ]
         },
         {

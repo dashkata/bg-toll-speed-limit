@@ -24,3 +24,10 @@ abstract class CacheClient<T> {
     await _box.clear();
   }
 }
+
+extension CacheClientExtension<T> on CacheClient<T> {
+  Future<Iterable<T>> getAll() async {
+    final entries = await this.entries;
+    return entries.values;  
+  }
+}
